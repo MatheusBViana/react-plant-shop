@@ -25,15 +25,24 @@ function busca_personalizada(){
     }
 
     return(
+        <div>
+
+            <div className="ondinha_meio_personalizada">
+                <img src={require("./button_images/fundo_verde.png")} alt="Detalhe onda verde"/>
+            </div>
+            <div className="ondinha_meio_personalizada2">
+                <img src={require("./button_images/fundo_verde.png")} alt="Detalhe onda verde"/>
+            </div>
+                    
         <div className="content contentbusca">
             <div className="busca-header">
-
+                    
                 <div className="titulo_busca_personalizada">
-                    <h1>Busca Personalizada</h1>
+                    <h1>Find the best plant for you!</h1>
                 </div>
                 
                 <div className="texto_busca_personalizada">
-                    Precisamos de algumas informações para decidir qual o melhor tipo de planta para seu espaço
+                    We just need you to answer some questions to find the best plant for your house.
                 </div>
 
             </div>
@@ -44,7 +53,8 @@ function busca_personalizada(){
                 <form className="formulario_personalizado">
 
                     <div className="pergunta">
-                        <label>Quanto <strong>espaço</strong> você tem disponível para plantas?</label>
+                        <label>How much <strong>space</strong> do you have available for your plant?</label>
+                        {/* <label>Quanto <strong>espaço</strong> você tem disponível para plantas?</label> */}
                         
                         <div className="resposta">
                                 <div>
@@ -67,7 +77,8 @@ function busca_personalizada(){
                     </div>
 
                     <div className="pergunta">
-                        <label>Quão <strong>iluminado</strong> é o ambiente?</label>
+                        {/* <label>Quão <strong>iluminado</strong> é o ambiente?</label> */}
+                        <label>How much <strong>light</strong> does the room receives?</label>
                         
                         <div className="resposta">
 
@@ -90,50 +101,52 @@ function busca_personalizada(){
                     </div>
 
                     <div className="pergunta">
-                        <label>Qual a <strong>temperatura</strong> do ambiente?</label>
+                        {/* <label>Qual a <strong>temperatura</strong> do ambiente?</label> */}
+                        <label>How is the ambient <strong>temperature</strong>?</label>
+
 
                         <div className="resposta">
                             <div>
                                 <input type="radio"value="baixa" id="rad7" name="temperatura"></input>
-                                <label htmlFor="rad7"> Baixa (Friozinho)</label>
+                                <label htmlFor="rad7"> Cold</label>
                             </div>
 
                             <div>
                                 <input type="radio"value="media" id="rad8" name="temperatura"></input>
-                                <label htmlFor="rad8"> Média (Amena)</label>
+                                <label htmlFor="rad8"> Medium </label>
                             </div>  
 
                             <div>
                                 <input type="radio" value="alta" id="rad9" name="temperatura"></input>
-                                <label htmlFor="rad9"> Alta (Calor)</label>
+                                <label htmlFor="rad9"> Hot</label>
                             </div>  
                         </div>
                     </div>
 
                     <div className="pergunta">
-                        <label>Quanta <strong>manutenção</strong> você pode dar à planta?</label>
+                        <label>How much <strong>maintenance</strong> can you give the plant?</label>
                         
                         <div className="resposta">    
                             <div>
                                 <input type="radio" value="pouca" id="rad10" name="manutencao"></input>
-                                <label htmlFor="rad10"> Pouco (Quinzenal)</label>
+                                <label htmlFor="rad10"> Not much (15 days)</label>
                             </div>
 
                             <div>
                                 <input type="radio" value="media" id="rad11" name="manutencao"></input>
-                                <label htmlFor="rad11"> Médio (Toda Semana)</label>
+                                <label htmlFor="rad11"> A few (Weekly)</label>
                             </div>  
 
                             <div>
                                 <input type="radio" value="muita" id="rad12" name="manutencao"></input>
-                                <label htmlFor="rad12"> Muito (Diária)</label>
+                                <label htmlFor="rad12"> A lot (Daily)</label>
                             </div>   
                         </div>
                     </div>
 
                     <div className="botao_pesquisa">
                         <button type="button" onClick={handle_pesquisa} id="btn_buscapersonalizada">
-                        Pesquisar
+                        Search
                         </button>
                     </div>
                     
@@ -146,6 +159,8 @@ function busca_personalizada(){
             
         <Footer />
         </div>
+        </div>
+
     )
 }
 

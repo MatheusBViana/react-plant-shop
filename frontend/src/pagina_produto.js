@@ -5,8 +5,8 @@ import Footer from './footer';
 import  {useEffect, useState} from 'react';
 import { useCookies } from 'react-cookie';
 import Cookies from 'universal-cookie';
-
-// Inicio o carrinho zerado 
+import 'jquery-ui';
+import $ from 'jquery';
 
 function iniciaCarrinho(){
     if(localStorage.getItem('quantidade_no_carrinho') == null || localStorage.getItem('quantidade_no_carrinho') <= 0){
@@ -90,6 +90,36 @@ function pagina_produto() {
                 console.log(quantidade);
                 item.quantity += quantidade;
                 added = true;
+                var imgtodrag = $('.foto_produto').find("img").eq(0);
+                console.log(imgtodrag);
+                if (imgtodrag) {
+                    var imgclone = imgtodrag.clone()
+                    .offset({
+                    top: imgtodrag.offset().top,
+                    left: imgtodrag.offset().left+500
+                    })
+                    .css({
+                    'opacity': '0.8',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                    'top': 35,
+                        'left': 1680,
+                        'width': 75,
+                        'height': 75
+                    }, 1000, 'swing');
+
+                    imgclone.animate({
+                        'width': 0,
+                            'height': 0
+                    }, function () {
+                        $(this).detach()
+                    });
+                }
             }
         }
         console.log(added);
@@ -100,6 +130,42 @@ function pagina_produto() {
                     id: id_produto,
                     quantity: quantidade,
                 });
+                var imgtodrag = $('.foto_produto').find("img").eq(0);
+                console.log(imgtodrag);
+                if (imgtodrag) {
+                    var imgclone = imgtodrag.clone()
+                    .offset({
+                    top: imgtodrag.offset().top,
+                    left: imgtodrag.offset().left+500
+                    })
+                    .css({
+                    'opacity': '0.8',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                    'top': 30,
+                        'left': 1680,
+                        'width': 75,
+                        'height': 75
+                    }, 1000, 'swing');
+
+                    imgclone.animate({
+                        'width': 0,
+                            'height': 0
+                    }, function () {
+                        $(this).detach()
+                    });
+                }
+                // var cart = $('.carrinho');
+                // console.log(cart);
+                // var imgtodrag = $(this).parent('.janela_produto').find("img").eq(0);
+                
+
+        
 
                 console.log(items.price*quantidade);
                 localStorage.setItem('quantidade_no_carrinho', parseInt(localStorage.getItem('quantidade_no_carrinho')) + 1);
@@ -117,25 +183,31 @@ function pagina_produto() {
     let display_preco = parseInt(items.price);
     return (
         <div className="pagina-produto-parent">
+            <div className="ondinha_meio_pagina">
+                <img src={require("./button_images/detalhe_pequeno.png")} alt="Detalhe onda verde"/>
+            </div>
+            <div className="ondinha2_meio_pagina">
+                <img src={require("./button_images/detalhe_pequeno.png")} alt="Detalhe onda verde"/>
+            </div>
             <div className="janela_produto">
                 <div className="foto_produto">
-                <img className="foto_produto" src={ items.img} alt=""/>
+                    <img className="foto_produto" src={ items.img} alt=""/>
                 </div>
                 <div className="info_produto">
                     <h1 className="nome_produto">{items.name}</h1>
                     <br/><br/>
                     <p className="preco_produto">R$ {display_preco.toFixed(2)}</p>
                     <hr/>
-                    <p className="estoque_produto">Estoque atual: {items.estoque}</p>
+                    <p className="estoque_produto">{items.estoque} in stock</p>
                     <div className="quantidade_produto">
                         <button onClick={() => setQuantidade(diminuirQuantidade)}  className="diminuir_quantidade">-</button>
                         <p className="quantidade_atual">{quantidade}</p>
                         <button onClick={() => setQuantidade(aumentarQuantidade)} className="aumentar_quantidade">+</button>
                     </div>
-                    <button onClick={adicionarProduto}className="adicionar_carrinho">Adicionar ao carrinho</button>
+                    <button onClick={adicionarProduto}className="adicionar_carrinho">Add to Cart</button>
                 </div>
                 <div className="descricao_produto">
-                    <h1>Descrição:</h1>
+                    <h1>Description:</h1>
                     <p >{items.descricao}</p>
                 </div>
             </div>

@@ -7,7 +7,7 @@ function meus_pedidos(){
     return(
         <div>
             <div className="painel-meus-pedidos">
-                <h1> Meus Pedidos: </h1>
+                <h1> My Orders: </h1>
                 <CardMeusPedidos indice={0} />
                 {/* <CardMeusPedidos indice={1} /> */}
                 {/* <CardMeusPedidos indice={2} /> */}

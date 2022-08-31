@@ -60,7 +60,7 @@ function editar_produto(){
                         body: JSON.stringify(conta_atual),
                     }
                 );
-                alert("Cadastro realizado com sucesso!");
+                alert("Edição realizada com sucesso!");
                 return;
             }
             alert("Senhas não conferem!")

@@ -25,44 +25,30 @@ function sobre(){
             <div className="parent">
                 <div className="titulo_sobre">
 
-                    <h1>Sobre</h1>
+                    <h1>About</h1>
                 </div>
-                
+                <div className="ondinha_meio_loja">
+                    <img src={require("./button_images/fundo_verde.png")} alt="Detalhe onda verde"/>
+                </div>
                 <div style={{ fontFamily: 'Segoe UI' }} className="texto_sobre">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Suspendisse metus lacus, congue eget fermentum vel, dignissim nec magna.
-                Vivamus eget diam mollis, ultrices purus et, dignissim ex. Fusce sollicitudin
-                felis non risus semper tincidunt. In sit amet lacus risus. Ut ultrices id velit a facilisis.
-                Mauris luctus in tortor finibus varius. Maecenas euismod nibh enim, non tristique nisl 
-                interdum sit amet. Duis nibh dolor, ultrices gravida ultricies ac, placerat at lorem. 
-                Suspendisse luctus mi quis metus consectetur scelerisque. Sed blandit ante facilisis pretium tristique. 
-                Nam semper, elit sed placerat fermentum, elit velit hendrerit turpis, a volutpat arcu dui a lectus. 
-                Curabitur eget tellus ex. Cras commodo suscipit mauris, ut ullamcorper nunc finibus id.
-                Mauris et tortor ligula. Phasellus eu libero dictum, commodo nibh in, mattis nisl.
+                Criada em 2022 por alunos da USP, a PlantCare nasceu de uma vontade enorme
+                de viabilizar o acesso ao verde para todas as pessoas, sempre buscando oferecer a opção de 
+                decoração que mais se adequa ao espaço do cliente. O respeito ao consumidor, a qualidade dos produtos e o atendimento personalizado
+                são as especialidades e os pilares da nossa empresa. O acesso direto aos produtores é o principal diferencial da empresa que pode
+                oferecer aos seus clientes produtos frescos a preços baixos. A empresa presta serviços de qualidade, com agilidade e excelência,
+                envolvendo o cliente no processo para, assim, alcançar sua satisfação.
                 </div>
                 
-                <div className="titulo_fundadores">
+                {/* <div className="titulo_fundadores">
                     <h1>Fundadores</h1>
-                </div>
+                </div> */}
 
                 <div className="cards_fundadores">
-                    <div className="fundador">
-                        <img src="images/luisa.png"/>
-                        <h1>Luísa<br/>Shimabucoro</h1>
-                        <p>-</p>
-                        <p>Lorem Ipsum</p>
-                    </div>
                     <div className="fundador">
                         <img src="images/matheus.jpg"/>
                         <h1>Matheus<br/>Bermudes</h1>
                         <p>-</p>
-                        <p>Lorem Ipsum</p>
-                    </div>
-                    <div className="fundador">
-                        <img src="images/wictor.png"/>
-                        <h1>Wictor<br/>Dalbosco</h1>
-                        <p>-</p>
-                        <p>Lorem Ipsum</p>
+                        <p>11849797</p>
                     </div>
                 </div>
                 <img className="folha" src="images/folha.png"/>

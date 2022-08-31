@@ -166,9 +166,9 @@ function carrinho(){
                         <CardProduto index={11} /> */}
                     </div>
                     {/* <PrecoTotal /> */}
-                    <p className="carrinho_precoFinal">Preço Total: R${sum.toFixed(2)}</p>
+                    <p className="carrinho_precoFinal">Total Price: R${sum.toFixed(2)}</p>
                     <a id="botao_proxima_pagina" onClick={handle_proxima_pagina}>
-                        <div className="botao_carrinho_finalizar_compra">Finalizar Compra</div>
+                        <div className="botao_carrinho_finalizar_compra">Checkout</div>
                     </a>
                 </div>
                 <div className="finalizar_ondinha">

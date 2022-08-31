@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {useRef} from 'react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
-
+import 'jquery-ui';
 
 class Conta{
     constructor(nome_usuario, senha, email, telefone){
@@ -68,25 +68,10 @@ function header(){
         
     const isAdmin = useRef(("true" == localStorage.getItem('isAdmin')));
     const isLoggedIn = useRef(("true" == localStorage.getItem('isLogged')));
-
+    const [errorMessage, setErrorMessage] = useState('');
 
     let minhaurl = window.location.href.substring(window.location.href.lastIndexOf('/'));
 
-    const fazlogin = async () =>{
-        let login = $('#username').val();
-        let senha = $('#password').val();
-        let response = await fetch("http://localhost:3000/accounts/");
-        let accounts = await response.json();
-
-        
-        for (let account of accounts) {
-            console.log(account);
-            if(account.email == login && account.password == senha){
-                alert("Logado!");
-                console.log("logado!!!");
-            }
-        }
-    }
 
     
     const handle_login = async (event) => {
@@ -120,11 +105,13 @@ function header(){
                     localStorage.setItem('isAdmin', false);
                     isAdmin.current = false;
                 }
+                setErrorMessage('');
                 navigate('/home');
                 return;
             }
         }
-        alert("Usuário ou senha incorretos!");
+        setErrorMessage('Usuário ou senha incorretos');
+        // alert("Usuário ou senha incorretos!");
         navigate('/home');
        
     }
@@ -228,6 +215,7 @@ function header(){
     }
 
     const trigger_login = () => {
+        setErrorMessage('');
         console.log("trigou")
         $('#login-trigger').next('.login-content').slideToggle(0);
         $('#login-trigger').toggleClass('active');
@@ -277,14 +265,14 @@ function header(){
         <div className="barra_superior">
             <ul>
                 <li>
-                    <a href='/loja' onMouseEnter={trigger_loja_popup} onMouseLeave={trigger_loja_popup_leave}  className="botoes_barra" id="loja">Loja</a>
+                    <a href='/loja' onMouseEnter={trigger_loja_popup} onMouseLeave={trigger_loja_popup_leave}  className="botoes_barra" id="loja">Shop</a>
                 </li>
                 <li>
-                    <Link to='/busca_personalizada' className="botoes_barra">Busca Personalizada</Link>
+                    <Link to='/busca_personalizada' className="botoes_barra">Quiz</Link>
                 </li>
                 <li>
                     {/* <a className="botoes_barra" id="sobre" href="sobre">Sobre</a> */}
-                    <Link to='/sobre' className="botoes_barra" id="sobre">Sobre</Link>
+                    <Link to='/sobre' className="botoes_barra" id="sobre">About us</Link>
                 </li>
                 <li>
                     <Link to='/home' className="botoes_barra" id="home"></Link>
@@ -294,7 +282,7 @@ function header(){
                     {/* </a> */}
                 </li>
                 <li>
-                    <input onKeyUp={handleKeyPress.bind(this)} type="text" className="botoes_barraDIR buscar" placeholder="Buscar"/>
+                    <input onKeyUp={handleKeyPress.bind(this)} type="text" className="botoes_barraDIR buscar" placeholder="Search"/>
                 </li>
 
                 {!isLoggedIn.current ?
@@ -307,23 +295,26 @@ function header(){
                                 <input  autoComplete="new-password" id="username"
                                         type="email"
                                         name="E-mail"
-                                        placeholder="Email"
+                                        placeholder="E-mail"
                                         required/>
                                 <input  id="password"
                                         type="password"
                                         name="Password"
-                                        placeholder="Senha"
+                                        placeholder="Password"
                                         required/>
                             </fieldset>
                             <fieldset id="actions">
                                 <input  onClick={(event)=>handle_login(event)} type="submit"
                                         id="submit"
                                         value="Login"/>
-
-                                <p id="legenda-cadastro"> Não tenho conta ainda</p>
+                                <span id="msg_erro_login" style={{
+                                fontWeight: 'bold',
+                                color: 'red',
+                                }}>{errorMessage}</span>
+                                <p id="legenda-cadastro"> Not registered?</p>
                                 <input onClick={trigger_cadastro} type="submit"
                                 id="submit"
-                                value="Cadastre-se"/>
+                                value="Sign up"/>
                             </fieldset>
                             </form>
                         </div>
@@ -336,7 +327,7 @@ function header(){
                             <input  autoComplete="new-password" id="cadastro_nome"
                             type="text"
                             name="Nome"
-                            placeholder="Nome"
+                            placeholder="Name"
                             required/>
                             <input  autoComplete="new-password" id="cadastro_email"
                                     type="email"
@@ -346,28 +337,28 @@ function header(){
                             <input  id="cadastro_senha"
                                     type="password"
                                     name="Password"
-                                    placeholder="Senha"
+                                    placeholder="Password"
                                     required/>
                             <input  id="confirma_senha"
                             type="password"
                             name="Confirm Password"
-                            placeholder="Confirme sua senha"
+                            placeholder="Confirm Password"
                             required/>
                             <input  autoComplete="new-password" id="cadastro_telefone"
                             type="tel"
                             name="Telefone"
-                            placeholder="Telefone"
+                            placeholder="Phone"
                             required/>
                             <input  autoComplete="new-password" id="cadastrar_cep"
                             type="text"
                             name="CEP"
-                            placeholder="CEP"
+                            placeholder="ZIP Code"
                             required/>
                           </fieldset>
                           <fieldset id="actions">
                             <input onClick={(event)=>fazCadastro(event)} type="submit"
                                     id="submit"
-                                    value="Cadastrar"/>
+                                    value="Sign up"/>
                           </fieldset>
                             </form>
                         </div>
@@ -376,9 +367,9 @@ function header(){
                  : 
                     isAdmin.current ?
                    <li>
-                        <Link className="carrinho adminCliente" to="/admin_clientes">Clientes</Link>
-                        <Link className="carrinho adminProdutos" to="/admin_products">Produtos</Link>
-                        <Link className="carrinho adminCompras" to="/lista_compras">Compras</Link>
+                        <Link className="carrinho adminCliente" to="/admin_clientes">Clients</Link>
+                        <Link className="carrinho adminProdutos" to="/admin_products">Products</Link>
+                        <Link className="carrinho adminCompras" to="/lista_compras">Sales</Link>
                         <img id="icon-perfil" onClick={trigger_perfil} src={require('./button_images/icon-perfil.png')} alt="Perfil" />
                         <div id="opcoes-perfil">
                             <a href="editar_info_cliente" id="editar-perfil-button" className="editar-button-perfil">Editar</a>
@@ -388,13 +379,13 @@ function header(){
                    </li>
                     : 
                     <li>
-                        <Link className="carrinho pedidos" to="meus_pedidos">Meus Pedidos</Link>
-                        <Link className="carrinho" to="carrinho">
+                        <Link className="carrinho pedidos" to="meus_pedidos">My Orders</Link>
+                        <Link className="carrinho" id="div_do_carrinho" to="carrinho">
                             <img id="cesta_carrinho" src={require('./button_images/cesta.png')} alt="Carrinho" />
                         </Link>
                         <img id="icon-perfil" onClick={trigger_perfil} src={require('./button_images/icon-perfil.png')} alt="Perfil" />
                         <div id="opcoes-perfil">
-                            <a href="editar_info_cliente" id="editar-perfil-button" className="editar-button-perfil">Editar</a>
+                            <a href="editar_info_cliente" id="editar-perfil-button" className="editar-button-perfil">Edit</a>
                             <a id="logout-button" className="logout" onClick={toggleLogin}>Logout</a>
                         </div>
                     </li> 
@@ -410,25 +401,25 @@ function header(){
                 <div id="loja-popup">
 
                     <div>
-                        <a href='loja_plantas'><p className="categoria-geral">Plantas</p></a>
-                        <a href='loja_plantas_interior'><p className="categoria-especifica">Plantas de Interior</p></a>
-                        <a href='loja_plantas_horta'><p className="categoria-especifica">Horta</p></a>
-                        <a href='loja_plantas_arvores&amp;arbustos'><p className="categoria-especifica">Árvores e Arbustos</p></a>
-                        <a href='loja_plantas_bulbos'><p className="categoria-especifica">Bulbos</p></a>
+                        <a href='loja_plantas'><p className="categoria-geral">Plants</p></a>
+                        <a href='loja_plantas_interior'><p className="categoria-especifica">Indoor plants</p></a>
+                        <a href='loja_plantas_horta'><p className="categoria-especifica">Herbs and spices</p></a>
+                        <a href='loja_plantas_arvores&amp;arbustos'><p className="categoria-especifica">Outdoor plants</p></a>
+                        <a href='loja_plantas_bulbos'><p className="categoria-especifica">Bulbs</p></a>
                     </div>
 
                     <div>
                         <a href="loja_vasos">
-                        <p className="categoria-geral">Vasos</p>
+                        <p className="categoria-geral">Pots</p>
                         </a>
-                        <a href="loja_vasos_ceramica" ><p>Cerâmica</p></a>
-                        <a href="loja_vasos_plastico"><p>Plástico</p></a>
+                        <a href="loja_vasos_ceramica" ><p>Ceramic</p></a>
+                        <a href="loja_vasos_plastico"><p>Plastic</p></a>
                     </div>
                    
                     <div>
-                        <a href="loja_outros"><p className="categoria-geral">Outros</p></a>
-                        <a href="loja_outros_adubos&amp;fertilizantes"><p>Adubos & Fertilizantes</p></a>
-                        <a href="loja_outros_equipamentos"><p>Equipamentos</p></a>
+                        <a href="loja_outros"><p className="categoria-geral">Others</p></a>
+                        <a href="loja_outros_adubos&amp;fertilizantes"><p>Fertilizers & Manures</p></a>
+                        <a href="loja_outros_equipamentos"><p>Gardening Equipments</p></a>
                     </div>
                 </div>
         </div>

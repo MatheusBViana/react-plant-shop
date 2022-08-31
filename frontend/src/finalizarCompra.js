@@ -7,6 +7,8 @@ import CardProduto from './card_produto';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import $ from 'jquery';
+import 'jquery-mask-plugin/dist/jquery.mask.min'; 
+import validator from 'validator'
 
 class Compra {
     constructor(id, num_compra, name, email, produto, preco, endereco, cidade, estado, cep, ultimos_digitos, data_compra) {
@@ -62,18 +64,41 @@ async function atualiza_estoque_funcao(produto){
 
 // Função principal do componente
 function finalizar_compra(){
+    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage2, setErrorMessage2] = useState('')
+
+    const [errorMessagePagamento, setErrorMessagePagamento] = useState('')
+    const [errorMessageEndereco, setErrorMessageEndereco] = useState('')
 
     useEffect(() =>{
         calcula_preco();
     }, []);
     const [items, setItems] = useState([]);
     const [newItems, setNewItems] = useState([]);
-    const [city, setCity] = useState('Cidade');
-    const [UF, setUF] = useState('UF');
-    const [street, setStreet] = useState('Rua');
+    const [city, setCity] = useState('City');
+    const [UF, setUF] = useState('State');
+    const [street, setStreet] = useState('Street');
 
 
+    const checa_validade_cartao = () => {
+        let value = document.getElementById('expMonth').value;
 
+        let mes_cartao = parseInt(value.substring(0, 2));
+        let ano_cartao = value.substring(3, 5);
+        if(mes_cartao > 12 || mes_cartao < 1){
+            setErrorMessage2('Mês inválido');
+            return false;
+        }else if(ano_cartao < 22){
+            setErrorMessage2('Data de validade inválida');
+            return false;
+        }else if(mes_cartao < 7 && ano_cartao == 22){
+            setErrorMessage2('Data de validade inválida');
+            return false;
+        }
+        setErrorMessage2('');
+        return true;
+        
+    }
     const calcula_cep = async () =>{
         let cep = document.getElementById('zip').value;
         if (cep.length > 7){
@@ -84,15 +109,11 @@ function finalizar_compra(){
                 console.log(e);
                 return;
             });
-            console.log(response);
-            // let data = await response.json();
             if(response != undefined){
                 if(response.erro){
                     console.log("CEP não encontrado");
                     return;
                 }
-                console.log(response);
-                console.log("nao eh undefined!!")
                 setCity(response.localidade);
                 setUF(response.uf);
                 setStreet(response.logradouro);
@@ -146,20 +167,52 @@ function finalizar_compra(){
     // let preco_final = localStorage.getItem('preco_total');
     console.log(preco_final);
 
-    const handle_finalizar_compra = async _ => {
+    const formatCardDate = (input) => {
+        let reg_estring = new RegExp('/^0[1-9]|1[0-2]/[0-9]+$/');
+        if (reg_estring.test(input)) {
+            return input;
+        }
         
-        
+        let regexpExpiry = /^(?<month>0[1-9]|1[0-2])(?<year>[0-9]+)$/
+        console.log(regexpExpiry);
+        let match = regexpExpiry.exec(input);
+        console.log(match);
+        if(match) {
+            setErrorMessage2('');
+            return `${match.groups.month}/${match.groups.year}`;
+        }else{
+            setErrorMessage2('Data de expiração inválida');
+            return input;
+        }
+    };
 
-        
+    function maskCard(cardNumber) {
+        return cardNumber.replace(/^[\d-\s]+(?=\d{4})/, "************");
+    }
+    const handle_finalizar_compra = async _ => {
+        console.log(document.getElementById('cartao').value.length)
+        if(document.getElementById('cartao').value.length < 16){
+            setErrorMessage('Número do Cartão inválido');
+            // return;
+        }else{
+            setErrorMessage('');
+        }
         // console.log(cliente);
 
         let pagamento_preenchido = checa_pagamento_preenchido();
         let endereco_preenchido = checa_endereco_preenchido();
-        console.log('pagamento', pagamento_preenchido);
-        console.log("endereco", endereco_preenchido);
-        // Se todos os campos NÃO forem preenchidos, é feito um alert avisando o usuário
-        if(!pagamento_preenchido || !endereco_preenchido ){
-            alert("Favor preencher todos os campos");
+        let data_valida = checa_validade_cartao();
+        
+        if(!pagamento_preenchido){
+            setErrorMessagePagamento("Favor inserir todos os dados de pagamento.");
+            return;
+        }
+        if (!endereco_preenchido) {
+            setErrorMessageEndereco("Favor inserir todos os dados de endereço.");
+            return;
+        }
+        if (!data_valida) {
+            return;
         }else{
         // Se todos os campos forem preenchidos, a compra é realizada
 
@@ -278,50 +331,63 @@ function finalizar_compra(){
         }
     }
 
+
     return(
         <div>
 
         <div className="background_carrinho">
             
             <div className="janela_finalizar">
-                <h1 className="titulo_carrinho">Finalizar Compra</h1>
+                <h1 className="titulo_carrinho">Checkout</h1>
                 <hr/>
                 <form name="formulario-compra">
                     <div className="area_pagamento">
                         <div className="pagamento">
                             <fieldset id='inputs'>
-                                <h1>Cobrança</h1>
+                                <h1>Payment</h1>
     
                                 <div className="titular">
-                                <input  id="titular" className="info-inputs " type="text" placeholder='Titular Cartão'/>
+                                <input  id="titular" className="info-inputs " type="text" placeholder='Card Name'/>
                                 </div>
     
                                 <div className="cartao">
-                                <input  id="cartao" className="info-inputs " type="text" placeholder='Número Cartão'/>
+                                <input maxLength={16} id="cartao" className="info-inputs " type="number" placeholder='Card Number'/>
+                                <span style={{
+                                fontWeight: 'bold',
+                                color: 'red',
+                                }}>{errorMessage}</span>
                                 </div> 
     
                                 <div className="row">
-                                    <div>
-                                    <input  id="expDate" className="info-inputs " type="text" placeholder='MM/AA'/>
+                                    <div className="expdiv">
+                                        <input maxLength="5" id="expMonth" className="info-inputs " type="text" placeholder='MM/YY'/>
+                                        <span style={{
+                                        fontWeight: 'bold',
+                                        color: 'red',
+                                        }}>{errorMessage2}</span>
                                     </div> 
     
                                     <div>
-                                    <input  id="cvv" className="info-inputs " type="text" placeholder='CVV'/>
+                                    <input maxLength="3" id="cvv" className="info-inputs " type="text" placeholder='CVV'/>
                                     </div> 
                                 </div>
                                 
     
                             </fieldset>
+                                    <span style={{
+                                    fontWeight: 'bold',
+                                    color: 'red',
+                                    }}>{errorMessagePagamento}</span>
 
                         </div>
 
                         <div className="endereco">
                             <fieldset id="inputs">
                                 
-                                <h1>Endereço de entrega</h1>
+                                <h1>Address</h1>
     
                                 <div className="cep">
-                                <input maxLength={8} onChange={calcula_cep} id="zip" className="info-inputs " autoComplete="new-password"   type="text" placeholder='CEP'/>
+                                <input maxLength={8} onChange={calcula_cep} id="zip" className="info-inputs " autoComplete="new-password"   type="text" placeholder='ZIP'/>
                                 </div> 
                                 
                                 <div id="endereco-especifico">
@@ -346,8 +412,13 @@ function finalizar_compra(){
                                 </div> 
 
                                 <div className="complemento">
-                                    <input  id="reference" className="info-inputs " type="text" placeholder='Complemento'/>
+                                    <input  id="reference" className="info-inputs " type="text" placeholder='Apt, suite, etc(optional)'/>
                                 </div> 
+                                
+                            <span style={{
+                                    fontWeight: 'bold',
+                                    color: 'red',
+                                    }}>{errorMessageEndereco}</span>
                             </fieldset>
 
                         </div>
@@ -357,10 +428,10 @@ function finalizar_compra(){
                     <fieldset id='comprar'>
                         <div className="finalizar_final">
                             <div>
-                                <p className="finaliza_preco_final">Preço Total: R${preco_final}</p>
+                                <p className="finaliza_preco_final">Total Price: R${preco_final}</p>
                             </div>
                             <div>
-                                <p onClick={handle_finalizar_compra} className="botao_finalizar_compra">Finalizar Compra</p>
+                                <p onClick={handle_finalizar_compra} className="botao_finalizar_compra">Finish</p>
                             </div>
                         </div>
 

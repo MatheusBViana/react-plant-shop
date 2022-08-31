@@ -4,20 +4,20 @@ import React from 'react';
 function menu_categorias(){
     return (
         <div className="menu_categorias">
-            <h2>Categorias</h2>
-            <a href='loja_plantas'><h3 className="categoria-geral">Plantas</h3></a>
-            <a href='loja_plantas_interior'><p className="categoria-especifica">Plantas de Interior</p></a>
-            <a href='loja_plantas_horta'><p className="categoria-especifica">Horta</p></a>
-            <a href='loja_plantas_arvores&amp;arbustos'><p className="categoria-especifica">Árvores e Arbustos</p></a>
-            <a href='loja_plantas_bulbos'><p className="categoria-especifica">Bulbos</p></a>
+            <h2>Product Type</h2>
+            <a href='loja_plantas'><h3 className="categoria-geral">Plants</h3></a>
+            <a href='loja_plantas_interior'><p className="categoria-especifica">Indoor Plants</p></a>
+            <a href='loja_plantas_horta'><p className="categoria-especifica">Herbs and spices</p></a>
+            <a href='loja_plantas_arvores&amp;arbustos'><p className="categoria-especifica">Outdoor plants</p></a>
+            <a href='loja_plantas_bulbos'><p className="categoria-especifica">Bulbs</p></a>
 
-            <a href="loja_vasos"><h3 className="categoria-geral">Vasos</h3></a>
-            <a href="loja_vasos_ceramica" ><p>Cerâmica</p></a>
-            <a href="loja_vasos_plastico"><p>Plástico</p></a>
+            <a href="loja_vasos"><h3 className="categoria-geral">Pots</h3></a>
+            <a href="loja_vasos_ceramica" ><p>Ceramic</p></a>
+            <a href="loja_vasos_plastico"><p>Plastic</p></a>
 
-            <a href="loja_outros"><h3 className="categoria-geral">Outros</h3></a>
-            <a href="loja_outros_adubos&amp;fertilizantes"><p>Adubos & Fertilizantes</p></a>
-            <a href="loja_outros_equipamentos"><p>Equipamentos</p></a>
+            <a href="loja_outros"><h3 className="categoria-geral">Others</h3></a>
+            <a href="loja_outros_adubos&amp;fertilizantes"><p>Fertilizers & Manures</p></a>
+            <a href="loja_outros_equipamentos"><p>Gardening Equipments</p></a>
         </div>
     )
 }

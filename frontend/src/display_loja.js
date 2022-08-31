@@ -58,19 +58,20 @@ function fileira (props){
       <div className="janela-loja">
         <div className="header-loja"/>
         <div className="titulo_loja">
-          {tipo_produto == "busca_personalizada" ? <h1>Busca Personalizada</h1> : tipo_produto == "busca" ? <h1>Busca por: {localStorage.getItem('busca')}</h1> : <h1>{tipo_produto.charAt(0).toUpperCase() + tipo_produto.slice(1)}</h1>}
+          {tipo_produto == "busca_personalizada" ? <h1>Custom Search</h1> : tipo_produto == "busca" ? <h1>Search for: {localStorage.getItem('busca')}</h1> : <h1>{tipo_produto.charAt(0).toUpperCase() + tipo_produto.slice(1)}</h1>}
 
         </div>
 
         <div className="select-ordem-produtos">
-          <p>Ordenar Por:</p>
+          <p>Sort by:</p>
 
           <select onChange={handle_ordem} selected="padrão" id="ordenacao_produtos">
-              <option value="padrão">Padrão</option>
-              <option value="crescente">Mais baratos primeiro</option>
-              <option value="decrescente">Mais caros primeiro</option>
+              <option value="padrão">Default</option>
+              <option value="crescente">Lowest price first</option>
+              <option value="decrescente">Highest price first</option>
           </select>
         </div>      
+        
         <div className="pagina_loja"> 
             <ul>
               <Itemlista index={indexProduto[0]} coluna={1} tipo={tipo_produto} ordenacao={ordem}/>
@@ -95,14 +96,17 @@ function fileira (props){
         </div>
         
         <div className="paginas">
-        <button type="button" onClick={handle_prev} className="loja_pagebutton">Anterior</button>
+        <button type="button" onClick={handle_prev} className="loja_pagebutton">&lt;-</button>
         <button type="button" onClick={() => setNumero(0)}  className="page_number">1</button>
         <button type="button" onClick={() => setNumero(1)} className="page_number">2</button>
         {/* <button type="button" onClick={() => setNumero(2)}  className="page_number">3</button> */}
         {/* <button type="button" onClick={() => setNumero(3)}  className="page_number">4</button> */}
-        <button type="button" onClick={handle_next}  className="loja_pagebutton">Próximo</button>
+        <button type="button" onClick={handle_next}  className="loja_pagebutton">-&gt;</button>
         </div>
-
+        <div className="ondinha_meio_loja">
+          <img src={require("./button_images/fundo_verde.png")} alt="Detalhe onda verde"/>
+        </div>
+       
       </div>
   )
 }

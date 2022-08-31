@@ -10,6 +10,9 @@ function lista_compras(){
                 <CardListaCompras indice={0} />
             </div>
 
+            <div className="finalizar_ondinha">
+                <img src={require("./button_images/detalhe.png")} alt="Detalhe onda verde"/>
+            </div>
             <Footer />
         </div>
     )

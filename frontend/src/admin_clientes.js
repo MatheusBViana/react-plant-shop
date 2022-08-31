@@ -26,23 +26,12 @@ function admin_clientes(){
                     <CardAdminCliente indice={15} />
                     <CardAdminCliente indice={16} />
                     <CardAdminCliente indice={17} />
-                    <CardAdminCliente indice={18} />
-                    <CardAdminCliente indice={19} />
-                    <CardAdminCliente indice={20} />
-                    <CardAdminCliente indice={21} />
-                    <CardAdminCliente indice={22} />
-                    <CardAdminCliente indice={23} />
-                    <CardAdminCliente indice={24} />
-                    <CardAdminCliente indice={25} />
-                    <CardAdminCliente indice={26} />
-                    <CardAdminCliente indice={27} />
-                    <CardAdminCliente indice={28} />
-                    <CardAdminCliente indice={29} />
-                    <CardAdminCliente indice={30} />
+      
                 </div>
 
-                <div className="lista_ondinha">
-                </div>
+                <div className="finalizar_ondinha">
+            <img src={require("./button_images/detalhe.png")} alt="Detalhe onda verde"/>
+        </div>
             </div>
             <Footer />
         </div>
